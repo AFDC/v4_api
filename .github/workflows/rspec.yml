@@ -21,6 +21,11 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_DB: afdc_api_test
           POSTGRES_PASSWORD: ""
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
         ports: ["5432:5432"]
 
     steps:
@@ -46,9 +51,13 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
+          RUBYOPT: -W:no-deprecated -W:no-experimental
           PGHOST: localhost
           PGUSER: postgres
         run: bundle exec rails db:setup
 
       - name: Run tests
+        env:
+          RAILS_ENV: test
+          RUBYOPT: -W:no-deprecated -W:no-experimental
         run: bundle exec rspec
