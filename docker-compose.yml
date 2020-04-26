@@ -1,0 +1,19 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - afdc-pg:/var/lib/postgresql/data
+  
+  api:
+    build: .
+    volumes:
+      - .:/afdc_api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    env_file:
+      - .env
+volumes:
+  afdc-pg:
