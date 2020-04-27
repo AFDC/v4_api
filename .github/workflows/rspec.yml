@@ -60,4 +60,6 @@ jobs:
         env:
           RAILS_ENV: test
           RUBYOPT: -W:no-deprecated -W:no-experimental
+          PGHOST: localhost
+          PGUSER: postgres
         run: bundle exec rspec
